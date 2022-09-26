@@ -1,0 +1,40 @@
+{%extends 'base.html'%}
+{%block  conteudo %}
+<h1 class="mt-5">Minha agenda</h1>
+
+        <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th class="th-sm">Nome</th>
+              <th class="th-sm">Sobrenome</th>
+              <th class="th-sm">Telefone</th>
+              <th class="th-sm">Categoria</th>
+            </tr>
+          </thead>
+          <tbody>
+           {% for contato in contatos %}
+            <tr>
+              <td>
+                <a href="{% url 'ver_contato' contato.id %}">{{contato.nome}}</a>
+              </td>
+              <td>{{contato.sobrenome}}</td>
+              <td>{{contato.telefone}}</td>
+              <td>{{contato.categoria}}</td>
+            </tr>
+           {% endfor%}
+          </tbody>
+          <tfoot>
+          <th>Nome
+          </th>
+          <th>Sobrenome
+          </th>
+          <th>Telefone
+          </th>
+          <th>Categoria
+          </th>
+          </tfoot>
+          <script>
+
+          </script>
+        </table>
+{%endblock%}
