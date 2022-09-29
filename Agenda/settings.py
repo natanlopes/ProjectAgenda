@@ -127,3 +127,14 @@ MEDIA_URL = 'media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# mensagens de alerta no campo pesquisa
+from  django.contrib.messages import constants
+# chamando uma constante  e colocando as mensagens de alerta do bootstramp
+MESSAGE_TAGS = {
+    constants.ERROR: 'alert-danger',
+    constants.WARNING: 'alert-warning',
+    constants.INFO: 'alert-info',
+    constants.SUCCESS: 'alert-success',
+    constants.DEBUG: 'alert-dark',
+}
