@@ -1,16 +1,31 @@
-from django.shortcuts import render,redirect
-from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib import messages, auth
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 def login(request):
-    return render(request, 'accounts/login.html')
+    if request.method != 'POST':
+        return render(request, 'accounts/login.html')
+    usuario = request.POST.get('usuario')
+    senha = request.POST.get('senha')
+
+    user = auth.authenticate(request, username=usuario, password=senha)
+
+    if not user:
+        messages.error(request, 'Usuario ou senha invalida.')
+        return render(request, 'accounts/cadastro.html')
+    else:
+        auth.login(request, user)
+        messages.error(request, 'voce fez login com sucesso.')
+        return redirect('dashbord')
 
 
 def logout(request):
-    return render(request, 'accounts/logout.html')
+    auth.logout(request)
+    return redirect('dashbord')
 
 
 def cadastro(request):
@@ -55,11 +70,12 @@ def cadastro(request):
         return render(request, 'accounts/cadastro.html')
     # mensagem de cadastrp com sucesso
     messages.success(request, 'casdastrado com sucesso')
-    #joagando para a tela de login
+    # joagando para a tela de login
     user = User.objects.create_user(username=usuario, email=email, password=senha, first_name=nome, last_name=sobrenome)
     user.save()
     return redirect('login')
 
 
+@login_required(redirect_field_name='login')
 def dashbord(request):
     return render(request, 'accounts/dashbord.html')
